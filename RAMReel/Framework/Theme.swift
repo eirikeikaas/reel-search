@@ -67,23 +67,7 @@ public struct RAMTheme: Theme {
     private static var defaultFont: UIFont = RAMTheme.initDefaultFont()
     
     private static func initDefaultFont() -> UIFont {
-        do {
-            try FontLoader.loadRobotoLight()
-        } catch (let error) {
-            print(error)
-        }
-            
-        let font: UIFont
-        if
-            let robotoLoaded = FontLoader.robotoLight,
-            let roboto = UIFont(name: robotoLoaded.name, size: 36)
-        {
-            font = roboto
-        } else if #available(iOS 8.2, *) {
-            font = UIFont.systemFontOfSize(36, weight: UIFontWeightThin)
-        } else {
-            font = UIFont.systemFontOfSize(36)
-        }
+        let font = UIFont.systemFontOfSize(36)
         return font
     }
     
@@ -125,45 +109,3 @@ public struct RAMTheme: Theme {
 FontLoader
 --
 */
-final class FontLoader {
-    
-    enum Error: ErrorType {
-        case FailedToLoadFont(String)
-    }
-    
-    static let robotoLight: FontLoader? = try? FontLoader.loadRobotoLight()
-    
-    static func loadRobotoLight() throws -> FontLoader {
-        return try FontLoader(name: "Roboto-Light", type: "ttf")
-    }
-    
-    let name: String
-    let type: String
-    
-    private init(name: String, type: String) throws {
-        self.name = name
-        self.type = type
-        
-        guard FontLoader.loadedFonts[name] == nil else {
-            return
-        }
-        
-        let bundle = NSBundle(forClass: self.dynamicType as AnyClass)
-
-        if
-            let fontPath = bundle.pathForResource(name, ofType: type),
-            let inData = NSData(contentsOfFile: fontPath),
-            let provider = CGDataProviderCreateWithCFData(inData),
-            let font = CGFontCreateWithDataProvider(provider)
-            where CTFontManagerRegisterGraphicsFont(font, nil)
-        {
-            FontLoader.loadedFonts[self.name] = self
-            return
-        } else {
-            throw Error.FailedToLoadFont(name)
-        }
-    }
-    
-    private static var loadedFonts: [String: FontLoader] = [:]
-    
-}

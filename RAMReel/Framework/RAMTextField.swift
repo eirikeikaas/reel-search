@@ -30,7 +30,7 @@ public class RAMTextField: UITextField {
         let lineColor = self.tintColor.colorWithAlphaComponent(0.3)
         lineColor.set()
         
-        CGContextSetLineWidth(ctx, 1)
+        CGContextSetLineWidth(ctx!, 1)
         
         let path = CGPathCreateMutable()
         
@@ -38,8 +38,8 @@ public class RAMTextField: UITextField {
         CGPathMoveToPoint(path, &m, 0, rect.height)
         CGPathAddLineToPoint(path, &m, rect.width, rect.height)
         
-        CGContextAddPath(ctx, path)
-        CGContextStrokePath(ctx)
+        CGContextAddPath(ctx!, path)
+        CGContextStrokePath(ctx!)
     }
     
 }
@@ -92,16 +92,16 @@ extension UIImage {
         let context = UIGraphicsGetCurrentContext()
         self.drawAtPoint(CGPointZero, blendMode: CGBlendMode.Normal, alpha: 1.0)
         
-        CGContextSetFillColorWithColor(context, color.CGColor)
-        CGContextSetBlendMode(context, CGBlendMode.SourceIn)
-        CGContextSetAlpha(context, 1.0)
+        CGContextSetFillColorWithColor(context!, color.CGColor)
+        CGContextSetBlendMode(context!, CGBlendMode.SourceIn)
+        CGContextSetAlpha(context!, 1.0)
         
         let rect = CGRectMake(
             CGPointZero.x,
             CGPointZero.y,
             size.width,
             size.height)
-        CGContextFillRect(UIGraphicsGetCurrentContext(), rect)
+        CGContextFillRect(UIGraphicsGetCurrentContext()!, rect)
         let tintedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
